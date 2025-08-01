@@ -141,7 +141,6 @@ namespace PolandMod.Content.Items
 
 		}
 
-
 		// TODO boss summon
 		// TODO spritework
 		// TODO sprite frames
@@ -210,11 +209,11 @@ namespace PolandMod.Content.Items
 
 			// Default movement parameters (here for attacking)
 			float speed = 45f;
-            float inertia = 90f;
-            Vector2 toPlayer = player.Center - NPC.Center;
-            toPlayer.Normalize();
-			toPlayer *= speed;                
-            NPC.velocity = (NPC.velocity * (inertia - 1) + toPlayer) / inertia;
+			float inertia = 90f;
+			Vector2 toPlayer = player.Center - NPC.Center;
+			toPlayer.Normalize();
+			toPlayer *= speed;
+			NPC.velocity = (NPC.velocity * (inertia - 1) + toPlayer) / inertia;
 
 			// Use direction multiplier: 1 for right, -1 for left
 			int direction = isLeft ? 1 : -1;
@@ -393,7 +392,7 @@ namespace PolandMod.Content.Items
 				NPC.velocity = (NPC.velocity * (inertia - 1) + vectorToIdlePosition) / inertia;
 				reachedIdle = true;
 			}
-	
+
 
 			// cause boss to perform a big attack
 			bigAttackTimer++;
