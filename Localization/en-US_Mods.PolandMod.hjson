@@ -1,0 +1,63 @@
+# This file will automatically update with entries for new content after a build and reload.
+
+Items: {
+	TutorialSword: {
+		DisplayName: Tutorial Sword
+		Tooltip: Slice and dice
+	}
+
+	Pierogi: {
+		DisplayName: Pierogi
+		Tooltip: Just like how Babcia used to make em!
+	}
+
+	PolishFlag: {
+		Tooltip: Flag of Poland
+		DisplayName: Polish Flag
+	}
+
+	BoberStaff: {
+		Tooltip: Oh k***a, bober!
+		DisplayName: Bober Buff Item
+	}
+
+	Vodka: {
+		Tooltip:
+			'''
+			Consumed in moderation
+			Increase attack, however decreases defence considerately
+			'''
+		DisplayName: Vodka
+	}
+
+	Potato: {
+		Tooltip: ""
+		DisplayName: Potato
+	}
+
+	PotatoCannon: {
+		DisplayName: Potato Cannon
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	BoberMinion.DisplayName: Bober Minion
+	PotatoRocket.DisplayName: Potato Rocket
+	BossHomingDagger.DisplayName: Boss Homing Dagger
+}
+
+Buffs: {
+	BoberBuff: {
+		Description: A bober to protect you!
+		DisplayName: Bober Buff
+	}
+
+	VodkaDebuff: {
+		DisplayName: Vodka Debuff
+		Description: You feel more powerful, but defence is hindered
+	}
+}
+
+Tiles.PotatoPlant.MapEntry: Potato Plant
+NPCs.EagleBoss.DisplayName: Eagle Boss

@@ -1,0 +1,3 @@
+displayName = Poland Mod
+author = PapierJ
+version = 0.1
