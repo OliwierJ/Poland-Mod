@@ -9,8 +9,13 @@ namespace PolandMod.Content.Items
     {
         public override void AddRecipeGroups()
         {
-            RecipeGroup group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.ShadowScale)}", ItemID.ShadowScale, ItemID.TissueSample);
-            RecipeGroup.RegisterGroup(nameof(ItemID.ShadowScale), group);
+            //group for evil boss drop i.e. tissue sample/shadow scale
+            RecipeGroup evilBossdropGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.ShadowScale)}", ItemID.ShadowScale, ItemID.TissueSample);
+            RecipeGroup.RegisterGroup(nameof(ItemID.ShadowScale), evilBossdropGroup);
+
+            // group for crowns i.e. gold/platinum crown
+            RecipeGroup crownGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.GoldCrown)}", ItemID.GoldCrown, ItemID.PlatinumCrown);
+            RecipeGroup.RegisterGroup(nameof(ItemID.GoldCrown), crownGroup);
         }
     }
 }
