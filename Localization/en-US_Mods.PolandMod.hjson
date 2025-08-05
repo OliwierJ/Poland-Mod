@@ -39,6 +39,11 @@ Items: {
 		DisplayName: Potato Cannon
 		Tooltip: ""
 	}
+
+	FeatheryCrown: {
+		DisplayName: Feathery Crown
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

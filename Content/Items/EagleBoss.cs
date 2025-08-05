@@ -19,16 +19,17 @@ namespace PolandMod.Content.Items
 
 		// public override string Texture => "PolandMod/Content/Items/UnfinishedTexture";
 		private int attackTimer;
-		private int bigAttackTimer = 500;
+		private int bigAttackTimer = 0;
 		private int bigAttackCooldown = 800;
-		private int roarCooldown;
 		public ref float AI_State => ref NPC.ai[0];
 		public ref float TimerToSwap => ref NPC.localAI[1];
+		public int idlePositionSwap = 500;
 		public bool isLeft = true;
 		private int shootCooldown = 100;
-		private int grabCooldown = 100;
+		private int roarCooldown;
 		private bool spawnedHoming = false;
 		private bool reachedIdle;
+		private bool doneRoar;
 
 		private enum ActionState
 		{
@@ -38,14 +39,32 @@ namespace PolandMod.Content.Items
 			Grabbing,
 			Roar
 		}
+		private enum Frame
+		{
+			Idle1,
+			Idle2,
+			Idle3,
+			Idle4,
+			Charge,
+			Roar,
+			Grab
+			
+		}
 		public override void SetStaticDefaults()
 		{
+			Main.npcFrameCount[NPC.type] = 7; // make sure to set this for your modnpcs.
 
+			// Add this in for bosses that have a summon item, requires corresponding code in the item (See MinionBossSummonItem.cs)
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
+			// Automatically group with other bosses
+			NPCID.Sets.BossBestiaryPriority.Add(Type);
+
+			NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
 		}
 		public override void SetDefaults()
 		{
-			NPC.width = 110;
-			NPC.height = 110;
+			NPC.width = 150;
+			NPC.height = 150;
 			NPC.damage = 50;
 			NPC.defense = 10;
 			NPC.lifeMax = 6000;
@@ -58,10 +77,6 @@ namespace PolandMod.Content.Items
 			NPC.SpawnWithHigherTime(30);
 			NPC.boss = true;
 			NPC.npcSlots = 15f; // Take up open spawn slots, preventing random NPCs from spawning during the fight
-
-			// Default buff immunities should be set in SetStaticDefaults through the NPCID.Sets.ImmuneTo{X} arrays.
-			// To dynamically adjust immunities of an active NPC, NPC.buffImmune[] can be changed in AI: NPC.buffImmune[BuffID.OnFire] = true;
-			// This approach, however, will not preserve buff immunities. To preserve buff immunities, use the NPC.BecomeImmuneTo and NPC.ClearImmuneToBuffs methods instead, as shown in the ApplySecondStageBuffImmunities method below.
 
 			// Custom AI, 0 is "bound town NPC" AI which slows the NPC down and changes sprite orientation towards the target
 			NPC.aiStyle = -1;
@@ -86,16 +101,85 @@ namespace PolandMod.Content.Items
 
 		public override void OnKill()
 		{
-
+			// This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
+			// NPC.SetEventFlagCleared(ref DownedBossSystem.downedMinionBoss, -1);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
-			return base.CanHitPlayer(target, ref cooldownSlot);
+			cooldownSlot = ImmunityCooldownID.Bosses; // use the boss immunity cooldown counter, to prevent ignoring boss attacks by taking damage from other sources
+			return true;
+		}
+
+		public override void HitEffect(NPC.HitInfo hit) {
+			// If the NPC dies, spawn gore and play a sound
+			if (Main.netMode == NetmodeID.Server) {
+				// We don't want Mod.Find<ModGore> to run on servers as it will crash because gores are not loaded on servers
+				return;
+			}
+
+			if (NPC.life <= 0) {
+				// These gores work by simply existing as a texture inside any folder which path contains "Gores/"
+				// int backGoreType = Mod.Find<ModGore>("MinionBossBody_Back").Type;
+				// int frontGoreType = Mod.Find<ModGore>("MinionBossBody_Front").Type;
+
+				var entitySource = NPC.GetSource_Death();
+
+				for (int i = 0; i < 2; i++) {
+					// Gore.NewGore(entitySource, NPC.position, new Vector2(Main.rand.Next(-6, 7), Main.rand.Next(-6, 7)), backGoreType);
+					// Gore.NewGore(entitySource, NPC.position, new Vector2(Main.rand.Next(-6, 7), Main.rand.Next(-6, 7)), frontGoreType);
+				}
+
+				SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+
+				// This adds a screen shake (screenshake) similar to Deerclops
+				PunchCameraModifier modifier = new PunchCameraModifier(NPC.Center, (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(), 20f, 6f, 20, 1000f, FullName);
+				Main.instance.CameraModifiers.Add(modifier);
+			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
+
+			Player player = Main.player[NPC.target];
+			NPC.spriteDirection = (player.Center.X > NPC.Center.X) ? -1 : 1;
+
+			// For the most part, our animation matches up with our states.
+			switch (AI_State)
+			{
+				case (float)ActionState.Idle:
+					// npc.frame.Y is the goto way of changing animation frames. npc.frame starts from the top left corner in pixel coordinates, so keep that in mind.
+					// Here we have 4 frames that we want to cycle through.
+					NPC.frameCounter++;
+
+					if (NPC.frameCounter < 10) {
+						NPC.frame.Y = (int)Frame.Idle1 * frameHeight;
+					} else if (NPC.frameCounter < 20)
+					{
+						NPC.frame.Y = (int)Frame.Idle2 * frameHeight;
+					} else if (NPC.frameCounter < 30)
+					{
+						NPC.frame.Y = (int)Frame.Idle3 * frameHeight;
+					} else if (NPC.frameCounter < 40)
+					{
+						NPC.frame.Y = (int)Frame.Idle4 * frameHeight;
+					} else {
+						NPC.frameCounter = 0;
+					}
+
+					break;
+				case (float)ActionState.PerformCharge:
+					NPC.frame.Y = (int)Frame.Charge * frameHeight;
+					break;
+				case (float)ActionState.Roar:
+					// Going from Notice to Asleep makes our npc look like it's crouching to jump.
+					NPC.frame.Y = (int)Frame.Roar * frameHeight;
+					break;
+				case (float)ActionState.Grabbing:
+					NPC.frame.Y = (int)Frame.Grab * frameHeight;
+					break;
+
+			}
 
 		}
 		public override void AI()
@@ -117,6 +201,7 @@ namespace PolandMod.Content.Items
 				return;
 			}
 
+			ScaleWithHP();
 			// reset the boss damage
 			NPC.damage = 50;
 			switch (AI_State)
@@ -141,27 +226,46 @@ namespace PolandMod.Content.Items
 
 		}
 
-		// TODO boss summon
-		// TODO spritework
-		// TODO sprite frames
-		// TODO fix dagger visuals
-		// TODO boss loot
-		// TODO beastiary
-		// TODO icons
+        private void ScaleWithHP()
+        {
+			if (NPC.life < NPC.lifeMax / 2)
+			{
+				shootCooldown = 70;
+				idlePositionSwap = 450;
+				bigAttackCooldown = 700;
+				
+			}
+			if (NPC.life < NPC.lifeMax / 3)
+			{
+				shootCooldown = 48;
+				idlePositionSwap = 350;
+				bigAttackCooldown = 600;
+			}
+        }
 
-		// perform roar attack that spawns homing projectiles
-		private void RoarAttack(Player player)
+        // TODO spritework
+        // // TODO boss loot
+        // TODO beastiary
+        // TODO icons
+
+        // perform roar attack that spawns homing projectiles
+        private void RoarAttack(Player player)
 		{
 			NPC.velocity = Vector2.Zero;
 			roarCooldown++;
-
-
+			if (!doneRoar)
+			{
+				SoundEngine.PlaySound(SoundID.Roar, NPC.position);
+				doneRoar = true;
+			}
+			NPC.spriteDirection = -1;
 			SpawnHoming(player);
 
 			if (roarCooldown > 200)
 			{
 				roarCooldown = 0;
 				spawnedHoming = false;
+				doneRoar = false;
 				AI_State = (float)ActionState.Idle;
 			}
 		}
@@ -237,7 +341,7 @@ namespace PolandMod.Content.Items
 
 			// Use direction multiplier: 1 for right, -1 for left
 			int direction = isLeft ? 1 : -1;
-			NPC.velocity.X = 12f * direction;
+			NPC.velocity.X = 20f * direction;
 
 			// Check if boss has passed the target distance
 			float targetX = player.Center.X + maxChargeDistance * direction;
@@ -278,9 +382,9 @@ namespace PolandMod.Content.Items
 
 			// Default movement parameters (here for attacking)
 			float speed = 20f;
-			float inertia = 30f;
+			float inertia = 10f;
 
-			if (distanceToIdlePosition > 25f)
+			if (distanceToIdlePosition > 35f)
 			{
 				// This is a simple movement formula using the two parameters and its desired direction to create a "homing" movement
 				vectorToIdlePosition.Normalize();
@@ -298,6 +402,7 @@ namespace PolandMod.Content.Items
 		{
 			// In your AI() method, after FindPosition(player);
 			attackTimer++;
+			
 			if (attackTimer >= (shootCooldown)) // Every 2 seconds (60 ticks = 1 second)
 			{
 				attackTimer = 0;
@@ -333,7 +438,7 @@ namespace PolandMod.Content.Items
 		{
 
 			TimerToSwap++;
-			if (TimerToSwap > 500f)
+			if (TimerToSwap > idlePositionSwap)
 			{
 				TimerToSwap = 0;
 				isLeft = !isLeft;
@@ -409,9 +514,6 @@ namespace PolandMod.Content.Items
 
 		}
 
-		public override void HitEffect(NPC.HitInfo hit)
-		{
-
-		}
+	
 	}
 }

@@ -229,3 +229,4 @@ C:\Users\papie\OneDrive\Documents\My Games\Terraria\tModLoader\ModSources\Poland
 C:\Users\papie\OneDrive\Documents\My Games\Terraria\tModLoader\ModSources\PolandMod\obj\Debug\net8.0\refint\PolandMod.dll
 C:\Users\papie\OneDrive\Documents\My Games\Terraria\tModLoader\ModSources\PolandMod\obj\Debug\net8.0\PolandMod.pdb
 C:\Users\papie\OneDrive\Documents\My Games\Terraria\tModLoader\ModSources\PolandMod\obj\Debug\net8.0\ref\PolandMod.dll
+C:\Users\papie\OneDrive\Documents\My Games\Terraria\tModLoader\ModSources\PolandMod\obj\Debug\net8.0\PolandMod.sourcelink.json

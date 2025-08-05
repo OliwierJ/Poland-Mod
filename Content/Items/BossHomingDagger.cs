@@ -10,12 +10,10 @@ namespace PolandMod.Content.Items
 
 	public class BossHomingDagger : ModProjectile
 	{
-        private float projectileSpeed;
-
 		public override void SetDefaults()
 		{
-			Projectile.width = 24; // The width of projectile hitbox
-			Projectile.height = 36; // The height of projectile hitbox
+			Projectile.width = 20; // The width of projectile hitbox
+			Projectile.height = 40; // The height of projectile hitbox
 
 			Projectile.friendly = false;
             Projectile.hostile = true;
@@ -37,11 +35,11 @@ namespace PolandMod.Content.Items
             
             // Apply homing after 1.5 seconds
             Projectile.ai[1] += 1f;
-            if (Projectile.ai[1] >= 40f && Projectile.ai[1] <= 120)
+            if (Projectile.ai[1] >= 40f && Projectile.ai[1] <= 145)
             {
                 // Default movement parameters (here for attacking)
-			    float speed = 45;
-                float inertia = 120f;
+			    float speed = 50;
+                float inertia = 80f;
 
                 Vector2 toPlayer = player.Center - Projectile.Center;
                 toPlayer.Normalize();
