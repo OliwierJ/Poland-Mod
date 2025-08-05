@@ -102,7 +102,7 @@ namespace PolandMod.Content.Items
 		public override void OnKill()
 		{
 			// This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
-			// NPC.SetEventFlagCleared(ref DownedBossSystem.downedMinionBoss, -1);
+			NPC.SetEventFlagCleared(ref DownedBossSystem.downedEagleBoss, -1);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
