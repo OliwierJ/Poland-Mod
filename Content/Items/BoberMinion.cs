@@ -75,11 +75,11 @@ namespace PolandMod.Content.Items
             // if owner dead or not active then clear the buff
             if (owner.dead || !owner.active)
             {
-                owner.ClearBuff(ModContent.BuffType<BoberBuff>());
+                owner.ClearBuff(ModContent.BuffType<Buffs.BoberBuff>());
                 return false;
             }
 
-            if (owner.HasBuff(ModContent.BuffType<BoberBuff>()))
+            if (owner.HasBuff(ModContent.BuffType<Buffs.BoberBuff>()))
             {
                 Projectile.timeLeft = 2;
             }

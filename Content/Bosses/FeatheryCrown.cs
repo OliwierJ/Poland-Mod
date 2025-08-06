@@ -3,7 +3,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Bosses
 {
 	// This is the item used to summon a boss, in this case the modded Minion Boss from Example Mod. For vanilla boss summons, see comments in SetStaticDefaults
 	public class FeatheryCrown : ModItem

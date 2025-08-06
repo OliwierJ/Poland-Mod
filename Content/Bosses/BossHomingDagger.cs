@@ -5,7 +5,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Bosses
 {
 
 	public class BossHomingDagger : ModProjectile

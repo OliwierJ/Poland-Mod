@@ -30,7 +30,7 @@ namespace PolandMod.Content.Items
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<VodkaDebuff>();
+            Item.buffType = ModContent.BuffType<Buffs.VodkaDebuff>();
             Item.value = Item.buyPrice(gold: 1);
             Item.buffTime = 60 * 60 * 10;
         }

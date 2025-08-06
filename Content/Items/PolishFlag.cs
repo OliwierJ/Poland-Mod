@@ -7,7 +7,7 @@ namespace PolandMod.Content.Items
     public class PolishFlag : ModItem
     {
         public override void SetDefaults() {
-			Item.DefaultToPlaceableTile(ModContent.TileType<PolishFlagTile>());
+			Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.PolishFlagTile>());
 			Item.value = Item.buyPrice(copper: 10);
 		}
 

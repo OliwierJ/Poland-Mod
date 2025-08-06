@@ -38,7 +38,7 @@ namespace PolandMod.Content.Items
             // Below needed for minion weapon
             Item.noMelee = true; // no melee damage
             Item.DamageType = DamageClass.Summon; // register as summon damage
-            Item.buffType = ModContent.BuffType<BoberBuff>();
+            Item.buffType = ModContent.BuffType<Buffs.BoberBuff>();
             // No buffTime because otherwise the item tooltip would say something like "1 minute duration"
             Item.shoot = ModContent.ProjectileType<BoberMinion>();
 

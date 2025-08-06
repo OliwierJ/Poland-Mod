@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Global
 {
 	class GlobalShop : GlobalNPC
 	{
@@ -10,7 +10,7 @@ namespace PolandMod.Content.Items
 			if (shop.NpcType == NPCID.Dryad) {
 				// Adding an item to a vanilla NPC is easy:
 				// This item sells for the normal price.
-				shop.Add<Potato>();
+				shop.Add<Items.Potato>();
 
 				// We can use shopCustomPrice and shopSpecialCurrency to support custom prices and currency. Usually a shop sells an item for item.value.
 				// Editing item.value in SetupShop is an incorrect approach.

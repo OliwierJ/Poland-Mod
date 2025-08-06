@@ -5,12 +5,13 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Personalities;
 using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Bosses
 {
 	[AutoloadBossHead]
 
@@ -91,18 +92,62 @@ namespace PolandMod.Content.Items
 		}
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-
+			// Sets the description of this NPC that is listed in the bestiary
+			bestiaryEntry.Info.AddRange(new List<IBestiaryInfoElement> {
+				new MoonLordPortraitBackgroundProviderBestiaryInfoElement(), // Plain black background
+				new FlavorTextBestiaryInfoElement("Bestiary.EagleBoss")
+			});
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
+			// Trophies are spawned with 1/10 chance
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EagleBossTrophy>(), 10));
 
+			// All the Classic Mode drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+
+			// Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
+			// Boss masks are spawned with 1/7 chance
+			notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EagleBossMask>(), 7));
+
+			// This part is not required for a boss and is just showcasing some advanced stuff you can do with drop rules to control how items spawn
+			// We make 12-15 ExampleItems spawn randomly in all directions, like the lunar pillar fragments. Hereby we need the DropOneByOne rule,
+			// which requires these parameters to be defined
+			// int itemType = ModContent.ItemType<ExampleItem>();
+			// var parameters = new DropOneByOne.Parameters() {
+			// 	ChanceNumerator = 1,
+			// 	ChanceDenominator = 1,
+			// 	MinimumStackPerChunkBase = 1,
+			// 	MaximumStackPerChunkBase = 1,
+			// 	MinimumItemDropsCount = 12,
+			// 	MaximumItemDropsCount = 15,
+			// };
+
+			// notExpertRule.OnSuccess(new DropOneByOne(itemType, parameters));
+
+			// Finally add the leading rule
+			npcLoot.Add(notExpertRule);
+
+			// Add the treasure bag using ItemDropRule.BossBag (automatically checks for expert mode)
+			npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<EagleBossBag>()));
+
+			// ItemDropRule.MasterModeCommonDrop for the relic
+			npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<EagleBossRelic>()));
+
+			// ItemDropRule.MasterModeDropOnAllPlayers for the pet
+			// npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<MinionBossPetItem>(), 4));
 		}
 
 		public override void OnKill()
 		{
 			// This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
-			NPC.SetEventFlagCleared(ref DownedBossSystem.downedEagleBoss, -1);
+			NPC.SetEventFlagCleared(ref Global.DownedBossSystem.downedEagleBoss, -1);
+		}
+		
+		public override void BossLoot(ref int potionType) {
+			// Here you'd want to change the potion type that drops when the boss is defeated. Because this boss is early pre-hardmode, we keep it unchanged
+			potionType = ItemID.HealingPotion;
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -224,6 +269,21 @@ namespace PolandMod.Content.Items
 					break;
 			}
 
+		}
+
+		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
+		{
+			// Example values, adjust as needed for your boss balance!
+			if (Main.masterMode)
+			{
+				NPC.lifeMax = (int)(NPC.lifeMax * 0.7f); // Lower HP for Master Mode (vanilla is 0.7x)
+				NPC.damage = (int)(NPC.damage * 1.5f);   // Higher damage for Master Mode (vanilla is 1.5x)
+			}
+			else if (Main.expertMode)
+			{
+				NPC.lifeMax = (int)(NPC.lifeMax * 0.8f); // Lower HP for Expert Mode (vanilla is 0.8x)
+				NPC.damage = (int)(NPC.damage * 1.2f);   // Higher damage for Expert Mode (vanilla is 1.2x)
+			}
 		}
 
         private void ScaleWithHP()
@@ -449,7 +509,7 @@ namespace PolandMod.Content.Items
 			Vector2 vectorToIdlePosition;
 			float distanceToIdlePosition;
 			float prefferedDistanceY = 300;
-			float prefferedDistanceX = 400;
+			float prefferedDistanceX = 350;
 
 			// where the boss should go 
 			Vector2 idlePosition;

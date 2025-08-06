@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Tiles
 {
 	/// <summary>
 	/// Banner, that unlike most vanilla banners, is wider than one tile.

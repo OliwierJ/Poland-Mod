@@ -44,6 +44,26 @@ Items: {
 		DisplayName: Feathery Crown
 		Tooltip: ""
 	}
+
+	EagleBossTrophy: {
+		DisplayName: Eagle Boss Trophy
+		Tooltip: ""
+	}
+
+	EagleBossRelic: {
+		Tooltip: ""
+		DisplayName: Eagle Boss Relic
+	}
+
+	EagleBossMask: {
+		Tooltip: ""
+		DisplayName: Eagle Boss Mask
+	}
+
+	EagleBossBag: {
+		Tooltip: ""
+		DisplayName: Eagle Boss Bag
+	}
 }
 
 Projectiles: {
@@ -64,5 +84,6 @@ Buffs: {
 	}
 }
 
+Bestiary.EagleBoss: A mighty eagle that is loyal to its homeland
 Tiles.PotatoPlant.MapEntry: Potato Plant
 NPCs.EagleBoss.DisplayName: Eagle Boss

@@ -5,12 +5,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Buffs
 {
-    // This file contains all the code necessary for the icon you can click on to despawn the minion
-    // https://github.com/tModLoader/tModLoader/wiki/Basic-Minion-Guide
-
-
     public class VodkaDebuff : ModBuff
     {
         private static readonly float attackIncrease = 0.15f;

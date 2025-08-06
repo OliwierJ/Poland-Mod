@@ -3,7 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria.ModLoader;
-namespace PolandMod.Content.Items
+
+namespace PolandMod.Content.Global
 {
     public class ModIntergrationSystem : ModSystem
     {
@@ -47,20 +48,20 @@ namespace PolandMod.Content.Items
             Func<bool> downed = () => DownedBossSystem.downedEagleBoss;
 
             // The NPC type of the boss
-            int bossType = ModContent.NPCType<EagleBoss>();
+            int bossType = ModContent.NPCType<Bosses.EagleBoss>();
 
             // The item used to summon the boss with (if available)
-            int spawnItem = ModContent.ItemType<FeatheryCrown>();
+            int spawnItem = ModContent.ItemType<Bosses.FeatheryCrown>();
 
             // "collectibles" like relic, trophy, mask, pet
             List<int> collectibles = new List<int>()
             {
                 // TODO ---------------------------------------------------------------
 
-				ModContent.ItemType<Potato>(),
+				// ModContent.ItemType<Items.Potato>(),
                 // ModContent.ItemType<Content.Pets.MinionBossPet.MinionBossPetItem>(),
-                // ModContent.ItemType<Content.Items.Placeable.Furniture.MinionBossTrophy>(),
-                // ModContent.ItemType<Content.Items.Armor.Vanity.MinionBossMask>()
+                ModContent.ItemType<Bosses.EagleBossTrophy>(),
+                ModContent.ItemType<Bosses.EagleBossMask>()
             };
 
             // By default, it draws the first frame of the boss, omit if you don't need custom drawing
