@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace PolandMod.Content.Bosses
 {
-	// This is the item used to summon a boss, in this case the modded Minion Boss from Example Mod. For vanilla boss summons, see comments in SetStaticDefaults
+	// This is the item used to summon a boss
 	public class FeatheryCrown : ModItem
 	{
 		public override void SetStaticDefaults() {
@@ -31,9 +31,6 @@ namespace PolandMod.Content.Bosses
 		}
 
 		public override bool CanUseItem(Player player) {
-			// If you decide to use the below UseItem code, you have to include !NPC.AnyNPCs(id), as this is also the check the server does when receiving MessageID.SpawnBoss.
-			// If you want more constraints for the summon item, combine them as boolean expressions:
-			//    return !Main.IsItDay() && !NPC.AnyNPCs(ModContent.NPCType<MinionBossBody>()); would mean "not daytime and no MinionBossBody currently alive"
 			return !NPC.AnyNPCs(ModContent.NPCType<EagleBoss>());
 		}
 

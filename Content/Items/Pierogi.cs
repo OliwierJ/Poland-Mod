@@ -12,15 +12,7 @@ namespace PolandMod.Content.Items
         public override void SetStaticDefaults()
         {
             ItemID.Sets.IsFood[Type] = true; // This allows it to be placed on a plate and held correctly
-
-
-            // This allows you to change the color of the crumbs that are created when you eat.
-            // The numbers are RGB (Red, Green, and Blue) values which range from 0 to 255.
-            // Most foods have 3 crumb colors, but you can use more or less if you desire.
-            // Depending on if you are making solid or liquid food switch out FoodParticleColors
-            // with DrinkParticleColors. The difference is that food particles fly outwards
-            // whereas drink particles fall straight down and are slightly transparent
-            
+            // These colors will appear when the food is eaten            
             ItemID.Sets.FoodParticleColors[Item.type] = [
                 new Color(175, 114, 0),
                 new Color(237, 211, 94),
@@ -38,9 +30,10 @@ namespace PolandMod.Content.Items
 
         public override void AddRecipes()
         {
+            // temp
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.DirtBlock, 10);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ModContent.ItemType<Potato>(), 4);
+            recipe.AddTile(TileID.Campfire);
             recipe.Register();
         }
 

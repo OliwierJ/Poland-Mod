@@ -13,17 +13,19 @@ using Terraria.ModLoader;
 
 namespace PolandMod.Content.Bosses
 {
+	// This attribute will automatically load the boss head texture for the boss health bar
 	[AutoloadBossHead]
+
+	// Main class for the boss
 
 	public class EagleBoss : ModNPC
 	{
 
-		// public override string Texture => "PolandMod/Content/Items/UnfinishedTexture";
 		private int attackTimer;
 		private int bigAttackTimer = 0;
 		private int bigAttackCooldown = 800;
-		public ref float AI_State => ref NPC.ai[0];
-		public ref float TimerToSwap => ref NPC.localAI[1];
+		public ref float AI_State => ref NPC.ai[0]; // The current state of the boss, represented as a float for flexibility
+		public ref float TimerToSwap => ref NPC.localAI[1]; // Timer to swap idle position
 		public int idlePositionSwap = 500;
 		public bool isLeft = true;
 		private int shootCooldown = 100;
@@ -32,6 +34,8 @@ namespace PolandMod.Content.Bosses
 		private bool reachedIdle;
 		private bool doneRoar;
 
+		// Enums for the different states and frames of the boss
+		// Using enums makes the code more readable, as you can use ActionState.Idle
 		private enum ActionState
 		{
 			Idle,
@@ -40,6 +44,7 @@ namespace PolandMod.Content.Bosses
 			Grabbing,
 			Roar
 		}
+		// Frames for the boss sprite sheet
 		private enum Frame
 		{
 			Idle1,
@@ -49,7 +54,7 @@ namespace PolandMod.Content.Bosses
 			Charge,
 			Roar,
 			Grab
-			
+
 		}
 		public override void SetStaticDefaults()
 		{
@@ -66,7 +71,7 @@ namespace PolandMod.Content.Bosses
 		{
 			NPC.width = 150;
 			NPC.height = 150;
-			NPC.damage = 50;
+			NPC.damage = 40;
 			NPC.defense = 10;
 			NPC.lifeMax = 6000;
 			NPC.HitSound = SoundID.NPCHit1;
@@ -82,13 +87,6 @@ namespace PolandMod.Content.Bosses
 			// Custom AI, 0 is "bound town NPC" AI which slows the NPC down and changes sprite orientation towards the target
 			NPC.aiStyle = -1;
 
-			// Custom boss bar
-			// NPC.BossBar = ModContent.GetInstance<MinionBossBossBar>();
-
-			// The following code assigns a music track to the boss in a simple way.
-			// if (!Main.dedServ) {
-			// 	Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ropocalypse2");
-			// }
 		}
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
@@ -107,24 +105,8 @@ namespace PolandMod.Content.Bosses
 			// All the Classic Mode drops here are based on "not expert", meaning we use .OnSuccess() to add them into the rule, which then gets added
 			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
-			// Notice we use notExpertRule.OnSuccess instead of npcLoot.Add so it only applies in normal mode
-			// Boss masks are spawned with 1/7 chance
+			// Boss masks are spawned with 1/7 chance 
 			notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EagleBossMask>(), 7));
-
-			// This part is not required for a boss and is just showcasing some advanced stuff you can do with drop rules to control how items spawn
-			// We make 12-15 ExampleItems spawn randomly in all directions, like the lunar pillar fragments. Hereby we need the DropOneByOne rule,
-			// which requires these parameters to be defined
-			// int itemType = ModContent.ItemType<ExampleItem>();
-			// var parameters = new DropOneByOne.Parameters() {
-			// 	ChanceNumerator = 1,
-			// 	ChanceDenominator = 1,
-			// 	MinimumStackPerChunkBase = 1,
-			// 	MaximumStackPerChunkBase = 1,
-			// 	MinimumItemDropsCount = 12,
-			// 	MaximumItemDropsCount = 15,
-			// };
-
-			// notExpertRule.OnSuccess(new DropOneByOne(itemType, parameters));
 
 			// Finally add the leading rule
 			npcLoot.Add(notExpertRule);
@@ -144,9 +126,10 @@ namespace PolandMod.Content.Bosses
 			// This sets downedMinionBoss to true, and if it was false before, it initiates a lantern night
 			NPC.SetEventFlagCleared(ref Global.DownedBossSystem.downedEagleBoss, -1);
 		}
-		
-		public override void BossLoot(ref int potionType) {
-			// Here you'd want to change the potion type that drops when the boss is defeated. Because this boss is early pre-hardmode, we keep it unchanged
+
+		public override void BossLoot(ref int potionType)
+		{
+			// This adds the boss heal potion type, in this case we use the standard healing potion
 			potionType = ItemID.HealingPotion;
 		}
 
@@ -156,21 +139,25 @@ namespace PolandMod.Content.Bosses
 			return true;
 		}
 
-		public override void HitEffect(NPC.HitInfo hit) {
+		public override void HitEffect(NPC.HitInfo hit)
+		{
 			// If the NPC dies, spawn gore and play a sound
-			if (Main.netMode == NetmodeID.Server) {
+			if (Main.netMode == NetmodeID.Server)
+			{
 				// We don't want Mod.Find<ModGore> to run on servers as it will crash because gores are not loaded on servers
 				return;
 			}
 
-			if (NPC.life <= 0) {
+			if (NPC.life <= 0)
+			{
 				// These gores work by simply existing as a texture inside any folder which path contains "Gores/"
 				// int backGoreType = Mod.Find<ModGore>("MinionBossBody_Back").Type;
 				// int frontGoreType = Mod.Find<ModGore>("MinionBossBody_Front").Type;
 
 				var entitySource = NPC.GetSource_Death();
 
-				for (int i = 0; i < 2; i++) {
+				for (int i = 0; i < 2; i++)
+				{
 					// Gore.NewGore(entitySource, NPC.position, new Vector2(Main.rand.Next(-6, 7), Main.rand.Next(-6, 7)), backGoreType);
 					// Gore.NewGore(entitySource, NPC.position, new Vector2(Main.rand.Next(-6, 7), Main.rand.Next(-6, 7)), frontGoreType);
 				}
@@ -183,9 +170,11 @@ namespace PolandMod.Content.Bosses
 			}
 		}
 
+		// Handles boss animation
 		public override void FindFrame(int frameHeight)
 		{
 
+			// Face the targeted player
 			Player player = Main.player[NPC.target];
 			NPC.spriteDirection = (player.Center.X > NPC.Center.X) ? -1 : 1;
 
@@ -193,43 +182,53 @@ namespace PolandMod.Content.Bosses
 			switch (AI_State)
 			{
 				case (float)ActionState.Idle:
-					// npc.frame.Y is the goto way of changing animation frames. npc.frame starts from the top left corner in pixel coordinates, so keep that in mind.
 					// Here we have 4 frames that we want to cycle through.
 					NPC.frameCounter++;
 
-					if (NPC.frameCounter < 10) {
+					if (NPC.frameCounter < 10)
+					{
 						NPC.frame.Y = (int)Frame.Idle1 * frameHeight;
-					} else if (NPC.frameCounter < 20)
+					}
+					else if (NPC.frameCounter < 20)
 					{
 						NPC.frame.Y = (int)Frame.Idle2 * frameHeight;
-					} else if (NPC.frameCounter < 30)
+					}
+					else if (NPC.frameCounter < 30)
 					{
 						NPC.frame.Y = (int)Frame.Idle3 * frameHeight;
-					} else if (NPC.frameCounter < 40)
+					}
+					else if (NPC.frameCounter < 40)
 					{
 						NPC.frame.Y = (int)Frame.Idle4 * frameHeight;
-					} else {
+					}
+					else
+					{
 						NPC.frameCounter = 0;
 					}
 
 					break;
 				case (float)ActionState.PerformCharge:
+					// Charge attack has one frame
 					NPC.frame.Y = (int)Frame.Charge * frameHeight;
 					break;
 				case (float)ActionState.Roar:
-					// Going from Notice to Asleep makes our npc look like it's crouching to jump.
+					// Roar attack has one frame
 					NPC.frame.Y = (int)Frame.Roar * frameHeight;
 					break;
 				case (float)ActionState.Grabbing:
+					// Grab attack has one frame
 					NPC.frame.Y = (int)Frame.Grab * frameHeight;
 					break;
 
 			}
 
 		}
+
+		// The AI of the boss, this is the main part of the boss code
+		// Handles the different states and behaviors of the boss
 		public override void AI()
 		{
-			// This should almost always be the first code in AI() as it is responsible for finding the proper player target
+			// find the nearest active player to target
 			if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
 			{
 				NPC.TargetClosest();
@@ -237,6 +236,7 @@ namespace PolandMod.Content.Bosses
 
 			Player player = Main.player[NPC.target];
 
+			// if all players are dead, try despawn
 			if (player.dead)
 			{
 				// If the targeted player is dead, flee
@@ -246,31 +246,39 @@ namespace PolandMod.Content.Bosses
 				return;
 			}
 
+			// scale the boss difficulty with its remaining health
 			ScaleWithHP();
 			// reset the boss damage
 			NPC.damage = 50;
+			// Handle the different states of the boss
 			switch (AI_State)
 			{
-				case (float)ActionState.Idle:
+				case (float)ActionState.Idle: // default state
+											  // Move around and shoot projectiles at the player
 					FindPosition(player);
 					ShootProjectile(player);
 					break;
-				case (float)ActionState.MoveToCharge:
+				case (float)ActionState.MoveToCharge: // prep for charge attack
+													  // Move to the side of the player
 					MoveToChargeAttack(player);
 					break;
-				case (float)ActionState.PerformCharge:
+				case (float)ActionState.PerformCharge: // charge attack
+													   // Charge at the player after getting into position
 					ChargeAttack(player);
 					break;
-				case (float)ActionState.Grabbing:
+				case (float)ActionState.Grabbing:   // grab attack
+													// Perform a grab attack in an arc
 					GrabAttack(player);
 					break;
-				case (float)ActionState.Roar:
+				case (float)ActionState.Roar:        // roar attack
+													 // Perform a roar attack that spawns homing projectiles
 					RoarAttack(player);
 					break;
 			}
 
 		}
 
+		// make the boss scale with expert and mastermode
 		public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
 		{
 			// Example values, adjust as needed for your boss balance!
@@ -286,14 +294,16 @@ namespace PolandMod.Content.Bosses
 			}
 		}
 
-        private void ScaleWithHP()
-        {
+		// scale the boss difficulty with its remaining health
+		private void ScaleWithHP()
+		{
+			// increase shoot rate and decrease time to swap idle position at 50% and 33% health
 			if (NPC.life < NPC.lifeMax / 2)
 			{
 				shootCooldown = 70;
 				idlePositionSwap = 450;
 				bigAttackCooldown = 700;
-				
+
 			}
 			if (NPC.life < NPC.lifeMax / 3)
 			{
@@ -301,26 +311,30 @@ namespace PolandMod.Content.Bosses
 				idlePositionSwap = 350;
 				bigAttackCooldown = 600;
 			}
-        }
+		}
 
-        // TODO spritework
-        // // TODO boss loot
-        // TODO beastiary
-        // TODO icons
+		// TODO boss loot - weapon and stuff
+		// TODO icons
+		// TODO boss mastermode pet
+		// Boss Gores
 
-        // perform roar attack that spawns homing projectiles
-        private void RoarAttack(Player player)
+		// perform roar attack that spawns homing projectiles
+		private void RoarAttack(Player player)
 		{
+			// stay still while roaring
 			NPC.velocity = Vector2.Zero;
 			roarCooldown++;
+			// play roar sound once
 			if (!doneRoar)
 			{
 				SoundEngine.PlaySound(SoundID.Roar, NPC.position);
 				doneRoar = true;
 			}
-			NPC.spriteDirection = -1;
+			// face specific direction while roaring
+			NPC.spriteDirection = 1;
+			// spawn homing projectiles once
 			SpawnHoming(player);
-
+			// after a certain time, end the roar attack
 			if (roarCooldown > 200)
 			{
 				roarCooldown = 0;
@@ -330,8 +344,10 @@ namespace PolandMod.Content.Bosses
 			}
 		}
 
+		// spawn homing projectiles in a circle around the boss
 		private void SpawnHoming(Player player)
 		{
+			// prevent spawning multiple times for frame
 			if (spawnedHoming) { return; }
 
 			spawnedHoming = true;
@@ -339,6 +355,7 @@ namespace PolandMod.Content.Bosses
 			int maxProjectilesSpawned = Main.expertMode ? 8 : 6;
 			float speed = 5f;
 
+			// Spawn projectiles in a circular pattern
 			for (int i = 0; i < maxProjectilesSpawned; i++)
 			{
 
@@ -354,7 +371,7 @@ namespace PolandMod.Content.Bosses
 						NPC.Center,
 						direction,
 						ModContent.ProjectileType<BossHomingDagger>(), // Replace with your projectile type
-						40, // damage
+						30, // damage
 						2f, // knockback
 						Main.myPlayer,
 						ai0: player.whoAmI // Pass the player's ID in ai[0]
@@ -367,6 +384,7 @@ namespace PolandMod.Content.Bosses
 		// perform a grab attack in an arc
 		private void GrabAttack(Player player)
 		{
+			// increase damage during grab attack
 			NPC.damage *= 2;
 			int maxChargeDistance = 50;
 
@@ -386,6 +404,7 @@ namespace PolandMod.Content.Bosses
 			float targetX = player.Center.X + maxChargeDistance * direction;
 			bool passedTarget = isLeft ? NPC.Center.X > targetX : NPC.Center.X < targetX;
 
+			// after passing the target then end the grab attack
 			if (passedTarget)
 			{
 				AI_State = (float)ActionState.Idle;
@@ -395,6 +414,7 @@ namespace PolandMod.Content.Bosses
 		// perform the charge attack
 		private void ChargeAttack(Player player)
 		{
+			// increase damage during charge attack
 			NPC.damage *= 2;
 			int maxChargeDistance = 600;
 			NPC.velocity.Y = 0f;
@@ -458,11 +478,11 @@ namespace PolandMod.Content.Bosses
 			}
 		}
 
+		// shoot projectiles at the player during idle state
 		private void ShootProjectile(Player player)
 		{
-			// In your AI() method, after FindPosition(player);
 			attackTimer++;
-			
+
 			if (attackTimer >= (shootCooldown)) // Every 2 seconds (60 ticks = 1 second)
 			{
 				attackTimer = 0;
@@ -485,18 +505,18 @@ namespace PolandMod.Content.Bosses
 						NPC.GetSource_FromAI(),
 						NPC.Center,
 						direction,
-						ProjectileID.JavelinHostile, // Replace with your projectile type
-						20, // damage
+						ModContent.ProjectileType<BossJavelin>(), // Replace with your projectile type
+						10, // damage
 						2f, // knockback
 						Main.myPlayer
 					);
 				}
 			}
 		}
-
+		// Find the position to move to during idle state
 		private void FindPosition(Player player)
 		{
-
+			// swap idle position every idlePositionSwap ticks
 			TimerToSwap++;
 			if (TimerToSwap > idlePositionSwap)
 			{
@@ -516,18 +536,17 @@ namespace PolandMod.Content.Bosses
 			idlePosition.Y = player.Center.Y - prefferedDistanceY;
 			idlePosition.X = 0;
 
+			// check the direction
 			if (isLeft)
 			{
-				// NPC.alpha = 0;
 				idlePosition.X = player.Center.X - prefferedDistanceX;
 			}
 			else
 			{
-
 				idlePosition.X = player.Center.X + prefferedDistanceX;
 
 			}
-
+			// calculate the vector to the idle position
 			vectorToIdlePosition = idlePosition - NPC.Center;
 			distanceToIdlePosition = vectorToIdlePosition.Length();
 
@@ -536,22 +555,21 @@ namespace PolandMod.Content.Bosses
 			float speed;
 			float inertia;
 
+			// Faster movement if far from the target position
 			if (distanceToIdlePosition > 400f)
 			{
-				// Speed up the minion if it's away from the player
 				speed = 20f;
 				inertia = 60f;
 			}
 			else
 			{
-				// Slow down the minion if closer to the player
+				// Slow down the boss if closer to the idle position
 				speed = 6f;
 				inertia = 40f;
 			}
 
 			if (distanceToIdlePosition > 20f)
 			{
-				// This is a simple movement formula using the two parameters and its desired direction to create a "homing" movement
 				vectorToIdlePosition.Normalize();
 				vectorToIdlePosition *= speed;
 				NPC.velocity = (NPC.velocity * (inertia - 1) + vectorToIdlePosition) / inertia;
@@ -565,15 +583,13 @@ namespace PolandMod.Content.Bosses
 			{
 				reachedIdle = false;
 				bigAttackTimer = 0; // reset timer
-									// generate random number for attack
+
+				// generate random number for attack
 				int randomValue = Main.rand.Next(1, 4);
 				if (randomValue == 1) { AI_State = (float)ActionState.MoveToCharge; }
 				if (randomValue == 2) { AI_State = (float)ActionState.Grabbing; }
 				if (randomValue == 3) { AI_State = (float)ActionState.Roar; }
 			}
-
 		}
-
-	
-	}
+	} // end of class
 }

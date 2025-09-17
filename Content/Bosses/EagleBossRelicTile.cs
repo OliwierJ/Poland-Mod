@@ -13,19 +13,15 @@ using Terraria.ObjectData;
 namespace PolandMod.Content.Bosses
 {
 	// Common code for a Master Mode boss relic
-	// Supports optional Item.placeStyle handling if you wish to add more relics but use the same tile type (then it would be wise to name this class something more generic like BossRelic)
-	// If you want to add more relics but don't want to use the Item.placeStyle approach, see the inheritance example at the bottom of the file
 	public class EagleBossRelicTile : ModTile
 	{
 		public const int FrameWidth = 18 * 3;
 		public const int FrameHeight = 18 * 4;
 		public const int HorizontalFrames = 1;
-		public const int VerticalFrames = 1; // Optional: Increase this number to match the amount of relics you have on your extra sheet, if you choose to use the Item.placeStyle approach
+		public const int VerticalFrames = 1; 
 
 		public Asset<Texture2D> RelicTexture;
 
-		// Every relic has its own extra floating part, should be 50x50. Optional: Expand this sheet if you want to add more, stacked vertically
-		// If you do not use the Item.placeStyle approach, and you extend from this class, you can override this to point to a different texture
 		public virtual string RelicTextureName => "PolandMod/Content/Bosses/EagleBossRelicTile";
 
 		// All relics use the same pedestal texture, this one is copied from vanilla
@@ -144,20 +140,4 @@ namespace PolandMod.Content.Bosses
 			spriteBatch.Draw(RelicTexture.Value, position, frame, color, 0f, Vector2.Zero, 1f, spriteEffects, 0f);
 		}
 	}
-
-	// If you want to make more relics but do not use the Item.placeStyle approach, you can use inheritance to avoid using duplicate code:
-	// Your tile code would then inherit from the MinionBossRelic class (which you should make abstract) and should look like this:
-	/*
-	public class MyBossRelic : MinionBossRelic
-	{
-		public override string RelicTextureName => "ExampleMod/Content/Tiles/Furniture/MyBossRelic";
-
-		public override void SetStaticDefaults() {
-			base.SetStaticDefaults();
-		}
-	}
-	*/
-
-	// Your item code would then just use the MyBossRelic tile type, and keep placeStyle on 0
-	// The textures for MyBossRelic item/tile have to be supplied separately
 }

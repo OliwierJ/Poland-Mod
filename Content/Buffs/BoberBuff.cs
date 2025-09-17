@@ -8,9 +8,6 @@ using Terraria.ModLoader;
 namespace PolandMod.Content.Buffs
 {
     // This file contains all the code necessary for the icon you can click on to despawn the minion
-    // https://github.com/tModLoader/tModLoader/wiki/Basic-Minion-Guide
-
-
     public class BoberBuff : ModBuff
     {
         public override void SetStaticDefaults()
@@ -22,7 +19,7 @@ namespace PolandMod.Content.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             // If the minions exist reset the buff time, otherwise remove the buff from the player
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Items.BoberMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Items.Weapons.BoberMinion>()] > 0)
             {
                 player.buffTime[buffIndex] = 18000;
             }

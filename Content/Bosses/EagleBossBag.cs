@@ -9,11 +9,10 @@ namespace PolandMod.Content.Bosses
 	public class EagleBossBag : ModItem
 	{
 		public override void SetStaticDefaults() {
-			// This set is one that every boss bag should have.
 			// It will create a glowing effect around the item when dropped in the world.
 			// It will also let our boss bag drop dev armor..
 			ItemID.Sets.BossBag[Type] = true;
-			ItemID.Sets.PreHardmodeLikeBossBag[Type] = true; // ..But this set ensures that dev armor will only be dropped on special world seeds, since that's the behavior of pre-hardmode boss bags.
+			ItemID.Sets.PreHardmodeLikeBossBag[Type] = true; 
 
 			Item.ResearchUnlockCount = 3;
 		}

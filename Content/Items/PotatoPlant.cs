@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 namespace PolandMod.Content.Items
 {
-    // An enum for the 3 stages of herb growth
+    // An enum for the 3 stages of plant growth
     public enum GrowthStage : byte
     {
         Planted,

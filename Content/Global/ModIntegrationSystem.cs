@@ -9,21 +9,16 @@ namespace PolandMod.Content.Global
     public class ModIntergrationSystem : ModSystem
     {
         public override void PostSetupContent() {
-			// Most often, mods require you to use the PostSetupContent hook to call their methods. This guarantees various data is initialized and set up properly
 
-			// Boss Checklist shows comprehensive information about bosses in its own UI. We can customize it:
-			// https://forums.terraria.org/index.php?threads/.50668/
+			// Boss Checklist shows comprehensive information about bosses in its own UI
 			DoBossChecklistIntegration();
 
-			// We can integrate with other mods here by following the same pattern. Some modders may prefer a ModSystem for each mod they integrate with, or some other design.
 		}
 
         private void DoBossChecklistIntegration()
         {
-            // The mods homepage links to its own wiki where the calls are explained: https://github.com/JavidPack/BossChecklist/wiki/%5B1.4.4%5D-Boss-Log-Entry-Mod-Call
             // If we navigate the wiki, we can find the "LogBoss" method, which we want in this case
             // A feature of the call is that it will create an entry in the localization file of the specified NPC type for its spawn info, so make sure to visit the localization file after your mod runs once to edit it
-
             if (!ModLoader.TryGetMod("BossChecklist", out Mod bossChecklistMod))
             {
                 return;
@@ -64,14 +59,8 @@ namespace PolandMod.Content.Global
                 ModContent.ItemType<Bosses.EagleBossMask>()
             };
 
-            // By default, it draws the first frame of the boss, omit if you don't need custom drawing
-            // But we want to draw the bestiary texture instead, so we create the code for that to draw centered on the intended location
-            // var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) => {
-            // 	Texture2D texture = ModContent.Request<Texture2D>("ExampleMod/Assets/Textures/Bestiary/MinionBoss_Preview").Value;
-            // 	Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
-            // 	sb.Draw(texture, centered, color);
-            // };
-
+            // By default, it draws the first frame of the boss
+            // If you want a custom portrait, you can provide a texture and a source rectangle for it
             bossChecklistMod.Call(
                 "LogBoss",
                 Mod,
@@ -83,9 +72,6 @@ namespace PolandMod.Content.Global
                 {
                     ["spawnItems"] = spawnItem,
                     ["collectibles"] = collectibles
-                    
-                    // ["customPortrait"] = customPortrait
-                    // Other optional arguments as needed are inferred from the wiki
                 }
             );
 

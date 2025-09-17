@@ -35,11 +35,8 @@ namespace PolandMod.Content.Global
         }
         
         public override void NetSend(BinaryWriter writer) {
-			// Order of parameters is important and has to match that of NetReceive
-			writer.WriteFlags(downedEagleBoss);
-			// WriteFlags supports up to 8 entries, if you have more than 8 flags to sync, call WriteFlags again.
-
-			// If you need to send a large number of flags, such as a flag per item type or something similar, BitArray can be used to efficiently send them. See Utils.SendBitArray documentation.
+            // We can pack up to 8 bools in one byte using WriteFlags
+            writer.WriteFlags(downedEagleBoss);
 		}
 
 		public override void NetReceive(BinaryReader reader) {

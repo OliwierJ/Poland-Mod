@@ -31,18 +31,18 @@ Items: {
 	}
 
 	Potato: {
-		Tooltip: ""
+		Tooltip: "The best starchy tube around"
 		DisplayName: Potato
 	}
 
 	PotatoCannon: {
 		DisplayName: Potato Cannon
-		Tooltip: ""
+		Tooltip: "Fire rocket-powered potatoes at your foes"
 	}
 
 	FeatheryCrown: {
 		DisplayName: Feathery Crown
-		Tooltip: ""
+		Tooltip: "Holding it gives you a sense of patriotism\nSummons the Mighty Eagle"
 	}
 
 	EagleBossTrophy: {
@@ -64,12 +64,17 @@ Items: {
 		Tooltip: ""
 		DisplayName: Eagle Boss Bag
 	}
+
+	RoyalSheath: {
+		Tooltip: "Holds out an eagle to pierce your enemies"
+		DisplayName: Royal Sheath
 }
 
 Projectiles: {
 	BoberMinion.DisplayName: Bober Minion
 	PotatoRocket.DisplayName: Potato Rocket
 	BossHomingDagger.DisplayName: Boss Homing Dagger
+	BossJavelin.DisplayName: Boss Javelin
 }
 
 Buffs: {

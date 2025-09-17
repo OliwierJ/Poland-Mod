@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace PolandMod.Content.Bosses
 {
-	// This tells tModLoader to look for a texture called MinionBossMask_Head, which is the texture on the player
+	// This tells tModLoader to look for a texture called EagleBossMask_Head, which is the texture on the player
 	// and then registers this item to be accepted in head equip slots
 	[AutoloadEquip(EquipType.Head)]
 	public class EagleBossMask : ModItem

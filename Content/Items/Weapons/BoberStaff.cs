@@ -5,11 +5,10 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
-{
-    // This file contains all the code necessary for the icon you can click on to despawn the minion
-    // https://github.com/tModLoader/tModLoader/wiki/Basic-Minion-Guide
+namespace PolandMod.Content.Items.Weapons
 
+{
+    // This file contains all the code necessary for staff to summon your minion
 
     public class BoberStaff : ModItem
     {
@@ -18,7 +17,7 @@ namespace PolandMod.Content.Items
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
 
-            ItemID.Sets.StaffMinionSlotsRequired[Type] = 1f;
+            ItemID.Sets.StaffMinionSlotsRequired[Type] = 1f;    // This is needed for the game to recognize your minion as a minion
         }
 
         public override void SetDefaults()

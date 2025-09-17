@@ -3,7 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace PolandMod.Content.Items
+namespace PolandMod.Content.Items.Weapons
+
 {
 
     public class PotatoCannon : ModItem
