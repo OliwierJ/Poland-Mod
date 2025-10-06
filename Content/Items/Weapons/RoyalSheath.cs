@@ -1,0 +1,86 @@
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace PolandMod.Content.Items.Weapons
+{
+    // This file contains all the code necessary for the icon you can click on to despawn the minion
+    // https://github.com/tModLoader/tModLoader/wiki/Basic-Minion-Guide
+
+
+    public class RoyalSheath : ModItem
+    {
+
+
+        public override void SetDefaults()
+        {
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 30;
+            Item.height = 30;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            // Item.holdStyle = ItemHoldStyleID.HoldFront;
+            Item.knockBack = 6;
+            Item.value = Item.buyPrice(silver: 1);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shoot = ModContent.ProjectileType<RoyalSheathProjectile>();
+            Item.shootSpeed = 15;
+
+        }
+        // Prevent item rotation when held out
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
+        {
+            // Keep the item straight out from the player's hand
+            player.itemRotation = 0f;
+        }
+
+        public override void UseItemFrame(Player player)
+        {
+            // Prevent the item from rotating with the cursor
+            player.itemRotation = 0f;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            // Move the item 3 pixels forward and 0 pixels upward
+            return new Vector2(3, -5);
+        }
+        // This method allows you to determine where the projectile is spawned
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            // position = player.Center + new Vector2(40 * player.direction, -40);
+            
+            // Spawn the Head of the eagle at the correct position
+            var head = Projectile.NewProjectileDirect(
+                source,
+                position,
+                Vector2.Zero,
+                ModContent.ProjectileType<RoyalSheathHead>(),
+                0,
+                0,
+                Main.myPlayer
+            );
+            // shoot towards the cursor from the heads offset position
+            Vector2 cursor = Main.MouseWorld;
+            head.rotation = (float)Math.Atan2(cursor.Y - head.Center.Y, cursor.X - head.Center.X);
+            if (player.direction == -1)
+            {
+                head.rotation += (float)Math.PI;
+            }
+            var projectile = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, Main.myPlayer);
+            projectile.originalDamage = Item.damage;
+
+            // Since we spawned the projectile manually already, we do not need the game to spawn it for ourselves anymore, so return false
+            return false;
+        }
+        
+    }
+}

@@ -31,18 +31,22 @@ Items: {
 	}
 
 	Potato: {
-		Tooltip: "The best starchy tube around"
+		Tooltip: The best starchy tube around
 		DisplayName: Potato
 	}
 
 	PotatoCannon: {
 		DisplayName: Potato Cannon
-		Tooltip: "Fire rocket-powered potatoes at your foes"
+		Tooltip: Fire rocket-powered potatoes at your foes
 	}
 
 	FeatheryCrown: {
 		DisplayName: Feathery Crown
-		Tooltip: "Holding it gives you a sense of patriotism\nSummons the Mighty Eagle"
+		Tooltip:
+			'''
+			Holding it gives you a sense of patriotism
+			Summons the Mighty Eagle
+			'''
 	}
 
 	EagleBossTrophy: {
@@ -66,8 +70,9 @@ Items: {
 	}
 
 	RoyalSheath: {
-		Tooltip: "Holds out an eagle to pierce your enemies"
+		Tooltip: Holds out an eagle to pierce your enemies
 		DisplayName: Royal Sheath
+	}
 }
 
 Projectiles: {
@@ -75,6 +80,8 @@ Projectiles: {
 	PotatoRocket.DisplayName: Potato Rocket
 	BossHomingDagger.DisplayName: Boss Homing Dagger
 	BossJavelin.DisplayName: Boss Javelin
+	RoyalSheathProjectile.DisplayName: Royal Sheath Projectile
+	RoyalSheathHead.DisplayName: Royal Sheath Head
 }
 
 Buffs: {
@@ -91,4 +98,4 @@ Buffs: {
 
 Bestiary.EagleBoss: A mighty eagle that is loyal to its homeland
 Tiles.PotatoPlant.MapEntry: Potato Plant
-NPCs.EagleBoss.DisplayName: Eagle Boss
+NPCs.EagleBoss.DisplayName: Eagle Boss"
