@@ -59,6 +59,11 @@ nunit-*.xml
 obj/Debug/net8.0/PolandMod.AssemblyInfo.cs
 obj/Debug/net8.0/PolandMod.AssemblyInfoInputs.cache
 
-obj
-Properties
+obj/
+Properties/
+bin/Debug/net8.0/
+.vs/
 
+build.txt
+/Content/Tests/
+desktop.ini
