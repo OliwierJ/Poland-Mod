@@ -58,3 +58,7 @@ TestResult.xml
 nunit-*.xml
 obj/Debug/net8.0/PolandMod.AssemblyInfo.cs
 obj/Debug/net8.0/PolandMod.AssemblyInfoInputs.cache
+
+obj
+Properties
+
