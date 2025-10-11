@@ -65,5 +65,6 @@ bin/Debug/net8.0/
 .vs/
 
 build.txt
-/Content/Tests/
+Content/Tests/
 desktop.ini
+*pdn

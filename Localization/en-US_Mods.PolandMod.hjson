@@ -73,6 +73,11 @@ Items: {
 		Tooltip: Holds out an eagle to pierce your enemies
 		DisplayName: Royal Sheath
 	}
+
+	Wz39: {
+		DisplayName: Wz39
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -98,4 +103,4 @@ Buffs: {
 
 Bestiary.EagleBoss: A mighty eagle that is loyal to its homeland
 Tiles.PotatoPlant.MapEntry: Potato Plant
-NPCs.EagleBoss.DisplayName: Eagle Boss"
+NPCs.EagleBoss.DisplayName: Eagle Boss
