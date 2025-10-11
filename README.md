@@ -1,28 +1,42 @@
-# PolandMod
+# Poland Mod
 
-A Terraria mod for tModLoader that adds Polish-themed content, bosses, items, buffs, and more to the game.
+A Terraria mod for tModLoader that adds Polish-themed content — bosses, weapons, items, buffs, tiles, and more.
 
 ## Features
-- **New Boss:**
-  - EagleBoss and related items (mask, relic, trophy, bag)
-  - Unique boss weapons (BossHomingDagger, BossJavelin, FeatheryCrown)
-- **Items:**
-  - Polish food items (Pierogi, Potato, Vodka)
-  - PolishFlag and related tiles
-  - Weapons such as PotatoCannon, PotatoRocket, BoberStaff
-- **Buffs & Debuffs:**
-  - BoberBuff
-  - VodkaDebuff
-- **Localization:**
-  - English localization file (`en-US_Mods.PolandMod.hjson`)
+- **Bosses**
+  - Eagle Boss and related drops (mask, relic, trophy, boss bag)
+- **Weapons**
+  - Potato Cannon, Potato Rocket, Bober Staff
+  - Royal Sheath (separate in-use sprite, improved holdout/rotation)
+  - Wz39 (Polish SMG)
+- **Items & Tiles**
+  - Pierogi, Potato, Vodka, Polish Flag, new tiles and relics
+- **Buffs & Debuffs**
+  - Bober Buff, Vodka Debuff, and related effects
 
+## Installation
+1. Place the mod folder in your tModLoader ModSources directory or install via the Workshop.
+2. Build and enable the mod in tModLoader.
+3. Launch Terraria.
+
+## Quick changelog (recent)
+- v1.2.1
+  - Major update with new weapon behavior and bug fixes.
+  - Added Wz39 and new Royal Sheath sprites.
+  - Moved Royal Sheath drawing to a dedicated projectile to allow different in-use sprite.
+  - Fixed sprite flipping, spawn offsets, and invisible held item issues.
+- v1.1.0
+  - Introduced Royal Sheath in-use display behavior and projectile visuals.
+  - Improved holdout offsets and tuned weapon properties.
+
+For full changelog see changelog.txt.
 
 ## Credits
-- Mod Author: OliwierJ
-- Special thanks to contributors and the Terraria modding community.
+- Mod Author: OliwierJ (PapierJ)
+- Thanks to the tModLoader and Terraria modding communities.
 
 ## License
-This mod is provided for fun and educational purposes. See the repository for license details.
+Provided for fun and educational purposes. See repository for license details.
 
 ---
 Enjoy new Polish adventures in Terraria!
