@@ -7,9 +7,6 @@ using Terraria.ModLoader;
 
 namespace PolandMod.Content.Items.Weapons
 {
-    // This file contains all the code necessary for the icon you can click on to despawn the minion
-    // https://github.com/tModLoader/tModLoader/wiki/Basic-Minion-Guide
-
 
     public class RoyalSheath : ModItem
     {
@@ -31,6 +28,7 @@ namespace PolandMod.Content.Items.Weapons
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.noMelee = true;
+            Item.noUseGraphic = true; // <--- added: stop default held graphic so we can draw a different one while shooting
             Item.shoot = ModContent.ProjectileType<RoyalSheathProjectile>();
             Item.shootSpeed = 15;
 
@@ -75,9 +73,9 @@ namespace PolandMod.Content.Items.Weapons
             {
                 head.rotation += (float)Math.PI;
             }
-            var projectile = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, Main.myPlayer);
+            var projectile = Projectile.NewProjectileDirect(source, head.position, velocity, type, damage, knockback, Main.myPlayer);
             projectile.originalDamage = Item.damage;
-
+            
             // Since we spawned the projectile manually already, we do not need the game to spawn it for ourselves anymore, so return false
             return false;
         }

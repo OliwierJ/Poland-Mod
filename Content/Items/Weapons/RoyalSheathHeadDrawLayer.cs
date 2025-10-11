@@ -49,23 +49,6 @@ namespace PolandMod.Content.Items.Weapons
                         0
                     ));
                 }
-                if (proj.active && proj.owner == player.whoAmI && proj.type == ModContent.ProjectileType<RoyalSheath>())
-                {
-                    Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[proj.type].Value;
-                    Vector2 position = proj.Center - Main.screenPosition;
-                    SpriteEffects effects = proj.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                    drawInfo.DrawDataCache.Add(new DrawData(
-                        texture,
-                        position,
-                        null,
-                        Lighting.GetColor((int)proj.Center.X / 16, (int)proj.Center.Y / 16),
-                        proj.rotation,
-                        texture.Size() / 2f,
-                        proj.scale,
-                        effects,
-                        0
-                    ));
-                }
             }
         }
     }
