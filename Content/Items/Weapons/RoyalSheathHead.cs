@@ -1,8 +1,13 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.GameInput;
+using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PolandMod.Content.Items.Weapons
 
@@ -33,18 +38,34 @@ namespace PolandMod.Content.Items.Weapons
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Player player = Main.player[Projectile.owner];
-            Texture2D heldTex = ModContent.Request<Texture2D>("PolandMod/Content/Items/Weapons/RoyalSheath_InUse").Value;
+            Player owner = Main.player[Projectile.owner];
 
-            // compute hand position; tweak offsets to fit your sprite
-            Vector2 hand = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(12 * player.direction, -8);
-            Vector2 origin = heldTex.Size() * 0.5f;
-            SpriteEffects effects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            float rotation = Projectile.rotation;
-            if (player.direction == -1) rotation += MathHelper.Pi;
+            // Only draw the held item when the player is actually holding the RoyalSheath
+            if (owner.HeldItem == null || owner.HeldItem.type != ModContent.ItemType<RoyalSheath>())
+                return false;
 
-            Main.EntitySpriteDraw(heldTex, hand - Main.screenPosition, null, lightColor, rotation, origin, 1f, effects, 0);
-            return false; // still draw projectile sprite if needed; return false to skip default projectile draw
+            // Request the item's display texture (tweak path if your mod uses a different one)
+            Texture2D tex = ModContent.Request<Texture2D>("PolandMod/Content/Items/Weapons/RoyalSheath_InUse").Value;
+
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(-5 * owner.direction, 25); // Slightly adjust vertical position if needed
+
+            // Origin: center of the texture (adjust if your sprite's origin differs)
+            Vector2 origin = tex.Size() * 0.5f;
+
+            // Rotation: use the player's item rotation so it behaves like a normal held sprite
+            float rotation = owner.itemRotation;
+            SpriteEffects effects = owner.direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+
+            // If player's spriteDirection flips the sprite horizontally for left, compensate by flipping vertically here
+            // (tweak if your art needs horizontal flip instead)
+            if (owner.direction == -1)
+                rotation += MathHelper.Pi;
+
+            // Draw with lighting color so it matches world lighting
+            Main.EntitySpriteDraw(tex, drawPos, null, lightColor, rotation, origin, 1f, effects, 0);
+
+            // Skip default projectile drawing
+            return false;
         }
     }
 }
