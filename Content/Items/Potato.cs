@@ -21,18 +21,16 @@ namespace PolandMod.Content.Items
             Item.width = 12;
             Item.height = 14;
             Item.value = Item.buyPrice(silver: 1);
-            Item.shoot = ModContent.ProjectileType<Weapons.PotatoRocket>(); // The projectile that weapons fire when using this item as ammunition.
+            // Item.shoot = ModContent.ProjectileType<Weapons.PotatoRocket>(); // The projectile that weapons fire when using this item as ammunition.
             Item.shootSpeed = 3f; // The speed of the projectile.
             Item.ammo = Item.type; // Important. The first item in an ammo class sets the AmmoID to its type
             Item.damage = 12; 
+            Item.noMelee = true; // So the item's animation doesn't do damage
             Item.DamageType = DamageClass.Ranged;
             Item.maxStack = Item.CommonMaxStack;
-			Item.knockBack = 1.5f;
+            Item.knockBack = 1.5f;
 
         }
-
-        
-
         
     }
 }
