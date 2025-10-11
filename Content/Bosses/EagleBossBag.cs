@@ -34,6 +34,8 @@ namespace PolandMod.Content.Bosses
 			// We have to replicate the expert drops from MinionBossBody here
 
 			itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<EagleBossMask>(), 7));
+			itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<Items.Weapons.RoyalSheath>(), 3));
+			itemLoot.Add(ItemDropRule.NotScalingWithLuck(ModContent.ItemType<Items.Weapons.Wz39>(), 3));
 			// itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<ExampleItem>(), 1, 12, 16));
 			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<EagleBoss>()));
 		}

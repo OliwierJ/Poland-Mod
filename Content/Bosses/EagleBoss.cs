@@ -107,6 +107,9 @@ namespace PolandMod.Content.Bosses
 
 			// Boss masks are spawned with 1/7 chance 
 			notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EagleBossMask>(), 7));
+			notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.RoyalSheath>(), 4));
+			notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Wz39>(), 4));
+
 
 			// Finally add the leading rule
 			npcLoot.Add(notExpertRule);
