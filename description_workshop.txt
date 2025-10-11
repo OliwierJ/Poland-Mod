@@ -1,23 +1,25 @@
-## PolandMod
+[h1]Poland Mod [/h1]
 
-Experience Terraria with a Polish twist! PolandMod adds new bosses, items, weapons, buffs, and more inspired by Polish culture.
-
-
-### Features
-- **New Bosses:** Face the mighty EagleBoss and more!
-- **Unique Weapons:** Try the PotatoCannon, BoberStaff, and more.
-- **Polish Items:** Enjoy Pierogi, Vodka, PolishFlag, and other themed items.
-- **Buffs & Debuffs:** BoberBuff, VodkaDebuff, and more effects.
-- **Custom Tiles & Relics:** Decorate your world with Polish relics and flags.
+Poland can into Terraria! Poland Mod adds new bosses, items, weapons, buffs, and more inspired by Polish culture.
 
 
+[h2]Features[/h2]
+- [b]New Bosses:[/b] Face the mighty Eagle Boss and more!
+- [b]Unique Weapons:[/b] Try the Potato Cannon, Bober Staff, and more.
+- [b]Polish Items:[/b] Enjoy Pierogi, Vodka, Polish Flag, and other themed items.
+- [b]Buffs & Debuffs:[/b] Bober Buff, Vodka Debuff, and more effects.
+- [b]Custom Tiles & Relics:[/b]Decorate your world with Polish relics and flags.
+- [b]Plants[/b]: Plant and grow new potato herbs to craft new items.
 
-### How to Install
-1. Download and enable PolandMod in tModLoader.
+
+
+[h2]How to Install[/h2]
+1. Download and enable Poland Mod in tModLoader.
 2. Launch Terraria and start your Polish adventure!
 
-### Credits
+[h2] Credits [/h2]
 Mod by OliwierJ. Thanks to the Terraria modding community!
 
 ---
-Enjoy new adventures and unique challenges in Terraria with PolandMod!
+Enjoy new adventures and unique challenges in Terraria with PolandMod![quote=tModLoader PolandMod]
+Developed By PapierJ[/quote]

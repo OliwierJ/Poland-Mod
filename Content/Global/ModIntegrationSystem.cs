@@ -56,7 +56,9 @@ namespace PolandMod.Content.Global
 				// ModContent.ItemType<Items.Potato>(),
                 // ModContent.ItemType<Content.Pets.MinionBossPet.MinionBossPetItem>(),
                 ModContent.ItemType<Bosses.EagleBossTrophy>(),
-                ModContent.ItemType<Bosses.EagleBossMask>()
+                ModContent.ItemType<Bosses.EagleBossMask>(),
+                ModContent.ItemType<Items.Weapons.Wz39>(),
+                ModContent.ItemType<Items.Weapons.RoyalSheath>()
             };
 
             // By default, it draws the first frame of the boss

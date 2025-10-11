@@ -17,10 +17,11 @@ namespace PolandMod.Content.Items.Weapons
 			Item.height = 22; // Hitbox height of the item.
 			Item.scale = 0.75f;
 			Item.rare = ItemRarityID.Green; // The color that the item's name will be in-game.
-
+            Item.value = Item.sellPrice(gold: 4); // The value of the item in copper coins.
+                        
 			// Use Properties
-			Item.useTime = 7; // The item's use time in ticks (60 ticks == 1 second.)
-			Item.useAnimation = 7; // The length of the item's use animation in ticks (60 ticks == 1 second.)
+			Item.useTime = 9; // The item's use time in ticks (60 ticks == 1 second.)
+			Item.useAnimation = 10; // The length of the item's use animation in ticks (60 ticks == 1 second.)
 			Item.useStyle = ItemUseStyleID.Shoot; // How you use the item (swinging, holding out, etc.)
 			Item.autoReuse = true; // Whether or not you can hold click to automatically use it again.
             Item.UseSound = SoundID.Item11; // The sound that this item plays when used.

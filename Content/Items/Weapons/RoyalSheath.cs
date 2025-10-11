@@ -14,23 +14,31 @@ namespace PolandMod.Content.Items.Weapons
 
         public override void SetDefaults()
         {
-            Item.damage = 50;
-            Item.DamageType = DamageClass.Magic;
+
+            // Common Properties
             Item.width = 30;
             Item.height = 30;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(gold: 4); // The value of the item in copper coins.
+
+            // Use Properties
             Item.useTime = 30;
             Item.useAnimation = 30;
+            Item.UseSound = SoundID.Item8;
             Item.useStyle = ItemUseStyleID.Shoot;
-            // Item.holdStyle = ItemHoldStyleID.HoldFront;
-            Item.knockBack = 6;
-            Item.value = Item.buyPrice(silver: 1);
-            Item.rare = ItemRarityID.Blue;
-            Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
+
+            // Weapon Properties
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = 50;
+            Item.knockBack = 6;
             Item.noMelee = true;
+
+            // Wand Properties
             Item.noUseGraphic = true; // <--- added: stop default held graphic so we can draw a different one while shooting
             Item.shoot = ModContent.ProjectileType<RoyalSheathProjectile>();
             Item.shootSpeed = 15;
+            Item.mana = 8;
 
         }
         // Prevent item rotation when held out
@@ -73,9 +81,10 @@ namespace PolandMod.Content.Items.Weapons
             {
                 head.rotation += (float)Math.PI;
             }
-            var projectile = Projectile.NewProjectileDirect(source, head.position, velocity, type, damage, knockback, Main.myPlayer);
+            Vector2 offset = new Vector2(head.position.X + (23 * player.direction), head.position.Y - 26);
+            var projectile = Projectile.NewProjectileDirect(source, offset, velocity, type, damage, knockback, Main.myPlayer);
             projectile.originalDamage = Item.damage;
-            
+
             // Since we spawned the projectile manually already, we do not need the game to spawn it for ourselves anymore, so return false
             return false;
         }

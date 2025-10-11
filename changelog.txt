@@ -1,0 +1,26 @@
+Poland Mod v1.2.1 — 2025-10-11
+
+Highlights
+- Major update with new weapon behavior, and bug fixes.
+
+Added
+- Added new weapons "Wz39", based on the Polish Submachine gun.
+- Added new sprite for Royal Sheath and the Royal Sheath Head.
+
+Changed
+- Royal Sheath: drawing logic moved to a dedicated projectile to allow a different in-use sprite while keeping the inventory icon.
+- Improved holdout offsets and rotation to better match player animations.
+- Default item properties adjusted for smoother use: tuned use time, shoot speed and mana cost for better feel.
+
+Fixed
+- Fixed sprite flipping/rotation issues when facing left.
+- Fixed incorrect spawn offset when firing from certain player orientations.
+- Fixed occasional invisible held item while using the Royal Sheath.
+- Fixed a plethora of issues with Potato being used as a weapon
+
+Other
+- Cleaned up code and comments for Royal Sheath and associated projectiles.
+- Removed test weapons
+
+Learn more at the homepage: {ModHomepage}
+Poland Mod v{ModVersion} was built for tModLoader v{tMLVersion} ({tMLBuildPurpose})
