@@ -78,6 +78,11 @@ Items: {
 		DisplayName: Wz39
 		Tooltip: ""
 	}
+
+	MossBlock: {
+		Tooltip: ""
+		DisplayName: Moss Block
+	}
 }
 
 Projectiles: {
@@ -104,3 +109,10 @@ Buffs: {
 Bestiary.EagleBoss: A mighty eagle that is loyal to its homeland
 Tiles.PotatoPlant.MapEntry: Potato Plant
 NPCs.EagleBoss.DisplayName: Eagle Boss
+
+Biomes: {
+	PolishBiome: {
+		TownNPCDialogueName: the Polish Biome
+		DisplayName: Polish Biome
+	}
+}
